@@ -157,4 +157,17 @@ class FunSetSuite extends FunSuite {
       assert(!exists(s, x=>x>3), "exists 2")
     }
   }
+
+  test ("maps" ) {
+    new TestSets {
+      val s4 = union(s1, s2)
+      val s = map(union(s4, s3), x=> x*2)
+      assert(!contains(s, 1), "maps 1")
+      assert(contains(s, 2), "maps 2")
+      assert(!contains(s, 3), "maps 3")
+      assert(contains(s, 4), "maps 4")
+      assert(!contains(s, 5), "maps 5")
+      assert(contains(s, 6), "maps 6")
+    }
+  }
 }
