@@ -86,7 +86,7 @@ class FunSetSuite extends FunSuite {
    * Once you finish your implementation of "singletonSet", exchange the
    * function "ignore" by "test".
    */
-  ignore("singletonSet(1) contains 1") {
+  test("singletonSet(1) contains 1") {
     
     /**
      * We create a new instance of the "TestSets" trait, this gives us access
@@ -101,12 +101,60 @@ class FunSetSuite extends FunSuite {
     }
   }
 
-  ignore("union contains all elements") {
+  test("union contains all elements") {
     new TestSets {
       val s = union(s1, s2)
       assert(contains(s, 1), "Union 1")
       assert(contains(s, 2), "Union 2")
       assert(!contains(s, 3), "Union 3")
+    }
+  }
+
+  test ("intersection contains the common element only" ) {
+    new TestSets {
+      val s4 = union(s1, s2)
+      val s5 = union(s2, s3)
+      val s = intersect(s4, s5)
+      assert(!contains(s, 1), "Intersect 1")
+      assert(contains(s, 2), "Intersect 2")
+      assert(!contains(s, 3), "Intersect 3")
+    }
+  }
+
+  test ("diff doesn't contains the common element" ) {
+    new TestSets {
+      val s4 = union(s1, s2)
+      val s5 = union(s2, s3)
+      val s = diff(s4, s5)
+      assert(contains(s, 1), "diff 1")
+      assert(!contains(s, 2), "diff 2")
+    }
+  }
+
+  test ("filter will have only 3" ) {
+    new TestSets {
+      val s4 = union(s1, s2)
+      val s = filter(union(s4, s3), x=>x==3)
+      assert(!contains(s, 1), "filter 1")
+      assert(contains(s, 3), "filter 2")
+    }
+  }
+
+  test ("forall" ) {
+    new TestSets {
+      val s4 = union(s1, s2)
+      val s = union(s4, s3)
+      assert(!forall(s, x=>x>2), "forall 1")
+      assert(forall(s, x=>x>0), "forall 2")
+    }
+  }
+
+  test ("exists" ) {
+    new TestSets {
+      val s4 = union(s1, s2)
+      val s = union(s4, s3)
+      assert(exists(s, x=>x>2), "exists 1")
+      assert(!exists(s, x=>x>3), "exists 2")
     }
   }
 }
